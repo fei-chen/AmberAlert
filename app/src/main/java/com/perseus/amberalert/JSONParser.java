@@ -3,7 +3,7 @@ package com.perseus.amberalert;
 import android.util.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
+//import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
@@ -15,12 +15,12 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by kwang on 7/27/15.
+ * Created by kwang.
  */
 public class JSONParser {
-    static InputStream sInputStream = null;
-    static JSONObject sReturnJsonObject = null;
-    static String sRawJsonString = "";
+    private static InputStream sInputStream = null;
+    private static JSONObject sReturnJsonObject = null;
+    private static String sRawJsonString = "";
 
     public JSONParser() {}
 
@@ -37,8 +37,10 @@ public class JSONParser {
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            /*
         } catch (ClientProtocolException e) {
             e.printStackTrace();
+            */
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,9 +50,9 @@ public class JSONParser {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     sInputStream, "iso-8859-1"), 8);
             StringBuilder stringBuilder = new StringBuilder();
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line + "\n");
+                stringBuilder.append(line).append("\n");
             }
             sInputStream.close();
             sRawJsonString = stringBuilder.toString();
