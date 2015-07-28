@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/black"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+            <TextView
+                android:id="@+id/person_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Name"
+                android:textColor="@color/white"
+                android:textSize="24sp"/>
+
+            <EditText
+                android:id="@+id/person_name_val"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="4.0dp"
+                android:layout_marginLeft="4.0dp"
+                android:background="@color/light_grey"
+                android:textColor="@color/black"
+                android:inputType="textPersonName">
+            </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/person_bday_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Birthday"
+            android:textColor="@color/white"
+            android:textSize="24sp"/>
+
+        <EditText
+            android:id="@+id/person_bday_val"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="4.0dp"
+            android:layout_marginLeft="4.0dp"
+            android:background="@color/light_grey"
+            android:textColor="@color/black"
+            android:inputType="date">
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/person_lost_time_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Lost Day"
+            android:textColor="@color/white"
+            android:textSize="24sp"/>
+
+        <EditText
+            android:id="@+id/person_lost_time_val"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="4.0dp"
+            android:layout_marginLeft="4.0dp"
+            android:background="@color/light_grey"
+            android:textColor="@color/black"
+            android:inputType="date">
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/person_loc_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Lost location"
+            android:textColor="@color/white"
+            android:textSize="24sp"/>
+
+        <EditText
+            android:id="@+id/person_loc_val"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="4.0dp"
+            android:layout_marginLeft="4.0dp"
+            android:background="@color/light_grey"
+            android:textColor="@color/black"
+            android:inputType="text">
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/person_address_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Address"
+            android:textColor="@color/white"
+            android:textSize="24sp"/>
+
+        <EditText
+            android:id="@+id/person_address_val"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="4.0dp"
+            android:layout_marginLeft="4.0dp"
+            android:background="@color/light_grey"
+            android:textColor="@color/black"
+            android:inputType="textMultiLine">
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/person_phone1_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Phone"
+            android:textColor="@color/white"
+            android:textSize="24sp"/>
+
+        <EditText
+            android:id="@+id/person_phone1_val"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="4.0dp"
+            android:layout_marginLeft="4.0dp"
+            android:background="@color/light_grey"
+            android:textColor="@color/black"
+            android:inputType="textPhonetic">
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/custom_button_cancel"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="50"
+            android:text="Cancel"
+            android:textColor="@color/black"
+            />
+
+        <Button
+            android:id="@+id/custom_button_commit"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="50"
+            android:text="Save"
+            android:textColor="@color/black"
+            />
+    </LinearLayout>
+</LinearLayout>
