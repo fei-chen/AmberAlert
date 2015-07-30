@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/person_root_layout"
     android:background="@color/black"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -38,23 +39,23 @@
         android:layout_margin="5dp">
 
         <TextView
-            android:id="@+id/person_bday_title"
+            android:id="@+id/person_age_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Birthday"
+            android:text="Age"
             android:textColor="@color/white"
             android:textSize="24sp"/>
 
         <EditText
-            android:id="@+id/person_bday_val"
+            android:id="@+id/person_age_val"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginRight="4.0dp"
             android:layout_marginLeft="4.0dp"
             android:background="@color/light_grey"
             android:textColor="@color/black"
-            android:inputType="date">
+            android:inputType="number">
         </EditText>
     </LinearLayout>
 
@@ -96,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Lost location"
+            android:text="Lost Location"
             android:textColor="@color/white"
             android:textSize="24sp"/>
 
@@ -109,33 +110,6 @@
             android:background="@color/light_grey"
             android:textColor="@color/black"
             android:inputType="text">
-        </EditText>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp">
-
-        <TextView
-            android:id="@+id/person_address_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Address"
-            android:textColor="@color/white"
-            android:textSize="24sp"/>
-
-        <EditText
-            android:id="@+id/person_address_val"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginRight="4.0dp"
-            android:layout_marginLeft="4.0dp"
-            android:background="@color/light_grey"
-            android:textColor="@color/black"
-            android:inputType="textMultiLine">
         </EditText>
     </LinearLayout>
 
@@ -172,7 +146,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/custom_button_cancel"
+            android:id="@+id/person_button_cancel"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="50"
@@ -181,7 +155,7 @@
             />
 
         <Button
-            android:id="@+id/custom_button_commit"
+            android:id="@+id/person_button_save"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="50"

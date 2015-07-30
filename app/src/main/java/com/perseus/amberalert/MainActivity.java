@@ -1,6 +1,7 @@
 package com.perseus.amberalert;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,14 +11,16 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.provider.MediaStore;
-//import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -141,6 +144,54 @@ public class MainActivity extends Activity {
         imageView = (ImageView)this.findViewById(R.id.imageView1);
         imageView.setImageBitmap(img);
 
+    }
+
+    //TODO: need to add this dialog into a menu
+    private void fireNewPersonDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_person);
+
+        TextView personNameView = (TextView) dialog.findViewById(R.id.person_name_title);
+        final EditText editName = (EditText) dialog.findViewById(R.id.person_name_val);
+        TextView personAgeView = (TextView) dialog.findViewById(R.id.person_age_title);
+        final EditText editAge = (EditText) dialog.findViewById(R.id.person_age_val);
+        TextView personLostDayView = (TextView) dialog.findViewById(R.id.person_lost_time_title);
+        final EditText editLostDay = (EditText) dialog.findViewById(R.id.person_lost_time_val);
+        TextView personLostLocationView = (TextView) dialog.findViewById(R.id.person_loc_title);
+        final EditText editLostLocation = (EditText) dialog.findViewById(R.id.person_loc_val);
+        TextView personPhoneView = (TextView) dialog.findViewById(R.id.person_phone1_title);
+        final EditText editPhone1 = (EditText) dialog.findViewById(R.id.person_phone1_val);
+        Button saveButton = (Button) dialog.findViewById(R.id.person_button_save);
+        LinearLayout rootLayout = (LinearLayout) dialog.findViewById(R.id.person_root_layout);
+        String tag;
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = editName.getText().toString();
+                String age = editAge.getText().toString();
+                String lostDay = editLostDay.getText().toString();
+                String lostLoc = editLostLocation.getText().toString();
+                String phone1 = editPhone1.getText().toString();
+
+                //tag = name + "," + age + "," + lostDay + "," +
+                //             lostLoc + "," + phone1;
+                dialog.dismiss();
+                //TODO: call /person/create API
+
+            }
+        });
+
+        Button cancelButton = (Button) dialog.findViewById(R.id.person_button_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     @Override
