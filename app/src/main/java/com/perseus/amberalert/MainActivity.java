@@ -115,18 +115,14 @@ public class MainActivity extends Activity {
                                                (double)options.outHeight / 1024f)));
                 options.inJustDecodeBounds = false;
                 img = BitmapFactory.decodeFile(fileSrc, options);
-                textView.setText("Click Detect. ==>");
 
-
-                imageView.setImageBitmap(img);
-                //buttonDetect.setVisibility(View.VISIBLE);
                 //call /person/add_face, TODO: what is the value for faceId?
                 String personId = "fakeid";
                 String faceId = "fakeId";
                 new PhotoTask().execute(personId, faceId);
 
             } else {
-                Log.d(TAG, "idButSelPic Photopicker canceled");
+                Log.d(TAG, "Photopicker canceled");
             }
         }
     }
