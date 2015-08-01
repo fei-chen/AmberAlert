@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +18,9 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import com.facepp.error.FaceppParseException;
 import com.facepp.http.HttpRequests;
+import com.facepp.http.PostParameters;
 
 public class MainActivity extends Activity {
 
@@ -37,9 +40,9 @@ public class MainActivity extends Activity {
         buttonNew.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
-                //new report form
-                Intent reportIntent = new Intent(MainActivity.this, NewReportActivity.class);
-                startActivity(reportIntent);
+            //new report form
+            Intent reportIntent = new Intent(MainActivity.this, NewReportActivity.class);
+            startActivity(reportIntent);
             }
         });
 
@@ -47,10 +50,10 @@ public class MainActivity extends Activity {
         buttonPhoto.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
-                //get a picture from the phone
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, PICTURE_CHOOSE);
+            //get a picture from the phone
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, PICTURE_CHOOSE);
             }
         });
 
@@ -117,9 +120,10 @@ public class MainActivity extends Activity {
 
                 imageView.setImageBitmap(img);
                 //buttonDetect.setVisibility(View.VISIBLE);
-                //call /person/add_face
-                HttpRequests httpRequests = new HttpRequests(Constants.API_KEY, Constants.API_SECRET,
-                                                             true, false);
+                //call /person/add_face, TODO: what is the value for faceId?
+                String personId = "fakeid";
+                String faceId = "fakeId";
+                new PhotoTask().execute(personId, faceId);
 
             } else {
                 Log.d(TAG, "idButSelPic Photopicker canceled");
@@ -127,6 +131,30 @@ public class MainActivity extends Activity {
         }
     }
 
+    private class PhotoTask extends AsyncTask<String, Void, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            HttpRequests httpRequests = new HttpRequests(Constants.API_KEY, Constants.API_SECRET,
+                    true, false);
+            PostParameters postParams = new PostParameters();
+            postParams.setPersonId(params[0]);
+            postParams.setFaceId(params[1]);
+            JSONObject result = null;
+            try {
+                result = httpRequests.personAddFace();
+            } catch (FaceppParseException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            TextView txt = (TextView) findViewById(R.id.person_name_title);
+            txt.setText("Saved");
+            //httpRequests.personDelete();
+        }
+    }
 /*
     private class FaceppDetect {
         DetectCallback callback = null;

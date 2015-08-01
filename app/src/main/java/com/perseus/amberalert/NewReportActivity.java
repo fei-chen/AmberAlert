@@ -2,6 +2,7 @@ package com.perseus.amberalert;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +49,7 @@ public class NewReportActivity extends Activity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String name = editName.getText().toString();
                 String age = editAge.getText().toString();
                 String lostDay = editLostDay.getText().toString();
@@ -56,30 +58,7 @@ public class NewReportActivity extends Activity {
 
                 String tag = age + "," + lostDay + "," + lostLoc + "," + phone1;
                 //call /person/create API
-                HttpRequests httpRequests = new HttpRequests(Constants.API_KEY, Constants.API_SECRET,
-                                                             true, false);
-                PostParameters params = new PostParameters();
-                params.setPersonName(name);
-                params.setTag(tag);
-                try {
-                    JSONObject result = httpRequests.personCreate(params);
-                    /*
-                    {
-                        "added_face": 0,
-                        "added_group": 1,
-                        "person_id": "c1e580c0665f6ed11d510fe4d194b37a",
-                        "person_name": "NicolasCage",
-                        "tag": "demotest"
-                    }
-                    */
-                    String personId = result.getString("person_id");
-                    personNameView.setText(personId);
-                    //httpRequests.personDelete();
-                } catch (FaceppParseException e) {
-                    e.printStackTrace();
-                } catch (JSONException je) {
-                    je.printStackTrace();
-                }
+                new ReportTask().execute(name, tag);
             }
         });
 
@@ -112,5 +91,30 @@ public class NewReportActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class ReportTask extends AsyncTask<String, Void, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            HttpRequests httpRequests = new HttpRequests(Constants.API_KEY, Constants.API_SECRET,
+                    true, false);
+            PostParameters postParams = new PostParameters();
+            postParams.setPersonName(params[0]);
+            //postParams.setTag(params[1]);
+            JSONObject result = null;
+            try {
+                result = httpRequests.personCreate(postParams);
+            } catch (FaceppParseException e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            TextView txt = (TextView) findViewById(R.id.person_name_title);
+            txt.setText("Saved");
+            //httpRequests.personDelete();
+        }
     }
 }
