@@ -1,7 +1,7 @@
 package com.perseus.amberalert;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,30 +19,31 @@ import com.facepp.http.PostParameters;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+public class NewReportActivity extends Activity {
 
-public class NewReportActivity extends ActionBarActivity {
+    final private static String TAG = "NewReportActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_report);
 
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.activity_new_report);
+        //final Dialog dialog = new Dialog(this);
+        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //dialog.setContentView(R.layout.activity_new_report);
 
-        final TextView personNameView = (TextView) dialog.findViewById(R.id.person_name_title);
-        final EditText editName = (EditText) dialog.findViewById(R.id.person_name_val);
-        TextView personAgeView = (TextView) dialog.findViewById(R.id.person_age_title);
-        final EditText editAge = (EditText) dialog.findViewById(R.id.person_age_val);
-        TextView personLostDayView = (TextView) dialog.findViewById(R.id.person_lost_time_title);
-        final EditText editLostDay = (EditText) dialog.findViewById(R.id.person_lost_time_val);
-        TextView personLostLocationView = (TextView) dialog.findViewById(R.id.person_loc_title);
-        final EditText editLostLocation = (EditText) dialog.findViewById(R.id.person_loc_val);
-        TextView personPhoneView = (TextView) dialog.findViewById(R.id.person_phone1_title);
-        final EditText editPhone1 = (EditText) dialog.findViewById(R.id.person_phone1_val);
-        Button saveButton = (Button) dialog.findViewById(R.id.person_button_save);
-        LinearLayout rootLayout = (LinearLayout) dialog.findViewById(R.id.person_root_layout);
+        final TextView personNameView = (TextView) this.findViewById(R.id.person_name_title);
+        final EditText editName = (EditText) this.findViewById(R.id.person_name_val);
+        TextView personAgeView = (TextView) this.findViewById(R.id.person_age_title);
+        final EditText editAge = (EditText) this.findViewById(R.id.person_age_val);
+        TextView personLostDayView = (TextView) this.findViewById(R.id.person_lost_time_title);
+        final EditText editLostDay = (EditText) this.findViewById(R.id.person_lost_time_val);
+        TextView personLostLocationView = (TextView) this.findViewById(R.id.person_loc_title);
+        final EditText editLostLocation = (EditText) this.findViewById(R.id.person_loc_val);
+        TextView personPhoneView = (TextView) this.findViewById(R.id.person_phone1_title);
+        final EditText editPhone1 = (EditText) this.findViewById(R.id.person_phone1_val);
+        Button saveButton = (Button) this.findViewById(R.id.person_button_save);
+        LinearLayout rootLayout = (LinearLayout) this.findViewById(R.id.person_root_layout);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +55,6 @@ public class NewReportActivity extends ActionBarActivity {
                 String phone1 = editPhone1.getText().toString();
 
                 String tag = age + "," + lostDay + "," + lostLoc + "," + phone1;
-                dialog.dismiss();
                 //call /person/create API
                 HttpRequests httpRequests = new HttpRequests(Constants.API_KEY, Constants.API_SECRET,
                                                              true, false);
@@ -74,7 +74,7 @@ public class NewReportActivity extends ActionBarActivity {
                     */
                     String personId = result.getString("person_id");
                     personNameView.setText(personId);
-                    httpRequests.personDelete();
+                    //httpRequests.personDelete();
                 } catch (FaceppParseException e) {
                     e.printStackTrace();
                 } catch (JSONException je) {
@@ -83,15 +83,13 @@ public class NewReportActivity extends ActionBarActivity {
             }
         });
 
-        Button cancelButton = (Button) dialog.findViewById(R.id.person_button_cancel);
+        Button cancelButton = (Button) this.findViewById(R.id.person_button_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                finish();
             }
         });
-
-        dialog.show();
     }
 
     @Override

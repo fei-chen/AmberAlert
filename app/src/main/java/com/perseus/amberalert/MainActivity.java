@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.provider.MediaStore;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,14 +15,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.facepp.error.FaceppParseException;
 import com.facepp.http.HttpRequests;
-import com.facepp.http.PostParameters;
-
-import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends Activity {
 
@@ -35,7 +26,6 @@ public class MainActivity extends Activity {
 
     private ImageView imageView = null;
     private Bitmap img = null;
-    private Button buttonDetect = null;
     private TextView textView = null;
 
     @Override
@@ -64,93 +54,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        /*
-        textView = (TextView)this.findViewById(R.id.textView1);
-
-        buttonDetect = (Button)this.findViewById(R.id.button2);
-        buttonDetect.setVisibility(View.INVISIBLE);
-        buttonDetect.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-
-                textView.setText("Waiting ...");
-
-                FaceppDetect faceppDetect = new FaceppDetect();
-                faceppDetect.setDetectCallback(new DetectCallback() {
-
-                    public void detectResult(JSONObject rst) {
-                        //Log.v(TAG, rst.toString());
-
-                        //use the red paint
-                        Paint paint = new Paint();
-                        paint.setColor(Color.RED);
-                        paint.setStrokeWidth(Math.max(img.getWidth(), img.getHeight()) / 100f);
-
-                        //create a new canvas
-                        Bitmap bitmap = Bitmap.createBitmap(img.getWidth(), img.getHeight(), img.getConfig());
-                        Canvas canvas = new Canvas(bitmap);
-                        canvas.drawBitmap(img, new Matrix(), null);
-
-
-                        try {
-                            //find out all faces
-                            final int count = rst.getJSONArray("face").length();
-                            for (int i = 0; i < count; ++i) {
-                                float x, y, w, h;
-                                //get the center point
-                                x = (float) rst.getJSONArray("face").getJSONObject(i)
-                                        .getJSONObject("position").getJSONObject("center").getDouble("x");
-                                y = (float) rst.getJSONArray("face").getJSONObject(i)
-                                        .getJSONObject("position").getJSONObject("center").getDouble("y");
-
-                                //get face size
-                                w = (float) rst.getJSONArray("face").getJSONObject(i)
-                                        .getJSONObject("position").getDouble("width");
-                                h = (float) rst.getJSONArray("face").getJSONObject(i)
-                                        .getJSONObject("position").getDouble("height");
-
-                                //change percent value to the real size
-                                x = x / 100 * img.getWidth();
-                                w = w / 100 * img.getWidth() * 0.7f;
-                                y = y / 100 * img.getHeight();
-                                h = h / 100 * img.getHeight() * 0.7f;
-
-                                //draw the box to mark it out
-                                canvas.drawLine(x - w, y - h, x - w, y + h, paint);
-                                canvas.drawLine(x - w, y - h, x + w, y - h, paint);
-                                canvas.drawLine(x + w, y + h, x - w, y + h, paint);
-                                canvas.drawLine(x + w, y + h, x + w, y - h, paint);
-                            }
-
-                            //save new image
-                            img = bitmap;
-
-                            MainActivity.this.runOnUiThread(new Runnable() {
-
-                                public void run() {
-                                    //show the image
-                                    imageView.setImageBitmap(img);
-                                    textView.setText("Finished, " + count + " faces.");
-                                }
-                            });
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    textView.setText("Error.");
-                                }
-                            });
-                        }
-
-                    }
-                });
-                faceppDetect.detect(img);
-            }
-        });
-*/
-        imageView = (ImageView)this.findViewById(R.id.imageView1);
-        imageView.setImageBitmap(img);
-        Button buttonExit = (Button)this.findViewById(R.id.button5);  //Exit
+        Button buttonExit = (Button)this.findViewById(R.id.buttonExit);  //Exit
         buttonExit.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
