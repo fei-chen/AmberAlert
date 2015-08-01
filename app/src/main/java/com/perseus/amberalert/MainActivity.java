@@ -47,6 +47,129 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button buttonNew = (Button)this.findViewById(R.id.button);  //create a new report
+        buttonNew.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View arg0) {
+                //new report form
+                Intent reportIntent = new Intent(MainActivity.this, NewReportActivity.class);
+                startActivity(reportIntent);
+            }
+        });
+
+        Button buttonPhoto = (Button)this.findViewById(R.id.button3);  //Save a photo
+        buttonPhoto.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View arg0) {
+                //get a picture from the phone
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, PICTURE_CHOOSE);
+            }
+        });
+
+        textView = (TextView)this.findViewById(R.id.textView1);
+
+        buttonDetect = (Button)this.findViewById(R.id.button2);
+        buttonDetect.setVisibility(View.INVISIBLE);
+        buttonDetect.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+
+                textView.setText("Waiting ...");
+
+                FaceppDetect faceppDetect = new FaceppDetect();
+                faceppDetect.setDetectCallback(new DetectCallback() {
+
+                    public void detectResult(JSONObject rst) {
+                        //Log.v(TAG, rst.toString());
+
+                        //use the red paint
+                        Paint paint = new Paint();
+                        paint.setColor(Color.RED);
+                        paint.setStrokeWidth(Math.max(img.getWidth(), img.getHeight()) / 100f);
+
+                        //create a new canvas
+                        Bitmap bitmap = Bitmap.createBitmap(img.getWidth(), img.getHeight(), img.getConfig());
+                        Canvas canvas = new Canvas(bitmap);
+                        canvas.drawBitmap(img, new Matrix(), null);
+
+
+                        try {
+                            //find out all faces
+                            final int count = rst.getJSONArray("face").length();
+                            for (int i = 0; i < count; ++i) {
+                                float x, y, w, h;
+                                //get the center point
+                                x = (float) rst.getJSONArray("face").getJSONObject(i)
+                                        .getJSONObject("position").getJSONObject("center").getDouble("x");
+                                y = (float) rst.getJSONArray("face").getJSONObject(i)
+                                        .getJSONObject("position").getJSONObject("center").getDouble("y");
+
+                                //get face size
+                                w = (float) rst.getJSONArray("face").getJSONObject(i)
+                                        .getJSONObject("position").getDouble("width");
+                                h = (float) rst.getJSONArray("face").getJSONObject(i)
+                                        .getJSONObject("position").getDouble("height");
+
+                                //change percent value to the real size
+                                x = x / 100 * img.getWidth();
+                                w = w / 100 * img.getWidth() * 0.7f;
+                                y = y / 100 * img.getHeight();
+                                h = h / 100 * img.getHeight() * 0.7f;
+
+                                //draw the box to mark it out
+                                canvas.drawLine(x - w, y - h, x - w, y + h, paint);
+                                canvas.drawLine(x - w, y - h, x + w, y - h, paint);
+                                canvas.drawLine(x + w, y + h, x - w, y + h, paint);
+                                canvas.drawLine(x + w, y + h, x + w, y - h, paint);
+                            }
+
+                            //save new image
+                            img = bitmap;
+
+                            MainActivity.this.runOnUiThread(new Runnable() {
+
+                                public void run() {
+                                    //show the image
+                                    imageView.setImageBitmap(img);
+                                    textView.setText("Finished, " + count + " faces.");
+                                }
+                            });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    textView.setText("Error.");
+                                }
+                            });
+                        }
+
+                    }
+                });
+                faceppDetect.detect(img);
+            }
+        });
+
+        imageView = (ImageView)this.findViewById(R.id.imageView1);
+        imageView.setImageBitmap(img);
+        Button buttonExit = (Button)this.findViewById(R.id.button5);  //Exit
+        buttonExit.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View arg0) {
+                //exit the application
+                finish();
+                System.exit(0);
+            }
+        });
+    }
+
+    /*
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.detect_person);
+
         Button button = (Button)this.findViewById(R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -145,12 +268,13 @@ public class MainActivity extends Activity {
         imageView.setImageBitmap(img);
 
     }
+    */
 
     //TODO: need to add this dialog into a menu
     private void fireNewPersonDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_person);
+        dialog.setContentView(R.layout.activity_new_report);
 
         TextView personNameView = (TextView) dialog.findViewById(R.id.person_name_title);
         final EditText editName = (EditText) dialog.findViewById(R.id.person_name_val);
@@ -180,6 +304,7 @@ public class MainActivity extends Activity {
                 dialog.dismiss();
                 //TODO: call /person/create API
 
+
             }
         });
 
@@ -206,6 +331,17 @@ public class MainActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        switch(item.getItemId()) {
+            case R.id.action_new:
+                fireNewPersonDialog();
+                return true;
+            case R.id.action_exit:
+                finish();
+                return true;
+            default:
+                return false;
+        }
+        /* old code
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -214,6 +350,7 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+        */
     }
 
     @Override

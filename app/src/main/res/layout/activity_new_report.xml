@@ -11,25 +11,25 @@
         android:orientation="horizontal"
         android:layout_margin="5dp">
 
-            <TextView
-                android:id="@+id/person_name_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Name"
-                android:textColor="@color/white"
-                android:textSize="24sp"/>
+        <TextView
+            android:id="@+id/person_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Name"
+            android:textColor="@color/white"
+            android:textSize="24sp"/>
 
-            <EditText
-                android:id="@+id/person_name_val"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginRight="4.0dp"
-                android:layout_marginLeft="4.0dp"
-                android:background="@color/light_grey"
-                android:textColor="@color/black"
-                android:inputType="textPersonName">
-            </EditText>
+        <EditText
+            android:id="@+id/person_name_val"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="4.0dp"
+            android:layout_marginLeft="4.0dp"
+            android:background="@color/light_grey"
+            android:textColor="@color/black"
+            android:inputType="textPersonName">
+        </EditText>
     </LinearLayout>
 
     <LinearLayout
@@ -136,7 +136,7 @@
             android:layout_marginLeft="4.0dp"
             android:background="@color/light_grey"
             android:textColor="@color/black"
-            android:inputType="textPhonetic">
+            android:inputType="phone">
         </EditText>
     </LinearLayout>
 
