@@ -1,7 +1,6 @@
 package com.perseus.amberalert;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,7 +16,6 @@ import com.facepp.error.FaceppParseException;
 import com.facepp.http.HttpRequests;
 import com.facepp.http.PostParameters;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class NewReportActivity extends Activity {
@@ -28,10 +26,6 @@ public class NewReportActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_report);
-
-        //final Dialog dialog = new Dialog(this);
-        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //dialog.setContentView(R.layout.activity_new_report);
 
         final TextView personNameView = (TextView) this.findViewById(R.id.person_name_title);
         final EditText editName = (EditText) this.findViewById(R.id.person_name_val);
@@ -55,7 +49,7 @@ public class NewReportActivity extends Activity {
                 String lostDay = editLostDay.getText().toString();
                 String lostLoc = editLostLocation.getText().toString();
                 String phone1 = editPhone1.getText().toString();
-
+                //TODO: not use tag, need a way to save these info.
                 String tag = age + "," + lostDay + "," + lostLoc + "," + phone1;
                 //call /person/create API
                 new ReportTask().execute(name, tag);
@@ -100,7 +94,7 @@ public class NewReportActivity extends Activity {
                     true, false);
             PostParameters postParams = new PostParameters();
             postParams.setPersonName(params[0]);
-            //postParams.setTag(params[1]);
+            //postParams.setTag(params[1]);  Has problem with concatenated values
             JSONObject result = null;
             try {
                 result = httpRequests.personCreate(postParams);

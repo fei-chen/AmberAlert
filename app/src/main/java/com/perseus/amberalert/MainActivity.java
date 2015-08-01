@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
         //the image picker callback
         if (requestCode == PICTURE_CHOOSE) {
             if (intent != null) {
-                //The Android api ~~~
+                //The Android API
                 //Log.d(TAG, "idButSelPic Photopicker: " + intent.getDataString());
                 Cursor cursor = getContentResolver().query(intent.getData(), null, null, null, null);
                 cursor.moveToFirst();
