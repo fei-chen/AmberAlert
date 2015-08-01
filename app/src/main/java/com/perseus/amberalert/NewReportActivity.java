@@ -12,6 +12,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facepp.error.FaceppParseException;
+import com.facepp.http.HttpRequests;
+import com.facepp.http.PostParameters;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class NewReportActivity extends ActionBarActivity {
 
@@ -24,7 +31,7 @@ public class NewReportActivity extends ActionBarActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.activity_new_report);
 
-        TextView personNameView = (TextView) dialog.findViewById(R.id.person_name_title);
+        final TextView personNameView = (TextView) dialog.findViewById(R.id.person_name_title);
         final EditText editName = (EditText) dialog.findViewById(R.id.person_name_val);
         TextView personAgeView = (TextView) dialog.findViewById(R.id.person_age_title);
         final EditText editAge = (EditText) dialog.findViewById(R.id.person_age_val);
@@ -36,7 +43,6 @@ public class NewReportActivity extends ActionBarActivity {
         final EditText editPhone1 = (EditText) dialog.findViewById(R.id.person_phone1_val);
         Button saveButton = (Button) dialog.findViewById(R.id.person_button_save);
         LinearLayout rootLayout = (LinearLayout) dialog.findViewById(R.id.person_root_layout);
-        String tag;
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,12 +53,33 @@ public class NewReportActivity extends ActionBarActivity {
                 String lostLoc = editLostLocation.getText().toString();
                 String phone1 = editPhone1.getText().toString();
 
-                //tag = name + "," + age + "," + lostDay + "," +
-                //             lostLoc + "," + phone1;
+                String tag = age + "," + lostDay + "," + lostLoc + "," + phone1;
                 dialog.dismiss();
-                //TODO: call /person/create API
-
-
+                //call /person/create API
+                HttpRequests httpRequests = new HttpRequests(Constants.API_KEY, Constants.API_SECRET,
+                                                             true, false);
+                PostParameters params = new PostParameters();
+                params.setPersonName(name);
+                params.setTag(tag);
+                try {
+                    JSONObject result = httpRequests.personCreate(params);
+                    /*
+                    {
+                        "added_face": 0,
+                        "added_group": 1,
+                        "person_id": "c1e580c0665f6ed11d510fe4d194b37a",
+                        "person_name": "NicolasCage",
+                        "tag": "demotest"
+                    }
+                    */
+                    String personId = result.getString("person_id");
+                    personNameView.setText(personId);
+                    httpRequests.personDelete();
+                } catch (FaceppParseException e) {
+                    e.printStackTrace();
+                } catch (JSONException je) {
+                    je.printStackTrace();
+                }
             }
         });
 
