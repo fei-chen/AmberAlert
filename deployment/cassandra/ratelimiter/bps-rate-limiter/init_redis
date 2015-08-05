@@ -1,0 +1,22 @@
+#!/bin/bash
+export PATH=$PATH:/home/ubuntu/redis-2.6.17/src
+
+for app in Cassandra-DATA_ETL Cassandra-P13N Cassandra-RSRP Cassandra-THEMATIC Cassandra-CONNECT Cassandra-SEARCH_QUALITY Cassandra-MOBILE_INDEXER Cassandra-ATTRIBUTE_EXTRACTION
+do
+  redis-cli lpush apps $app
+done
+
+for op in CONNECT SCAN PREPARE READ WRITE CREATE DROP ALTER
+do
+  redis-cli lpush op-qps $op
+done 
+
+for op in CONNECT-TOTAL
+do
+  redis-cli lpush op-total $op
+done
+
+for op in WRITE-BPS
+do
+  redis-cli lpush op-bps $op
+done

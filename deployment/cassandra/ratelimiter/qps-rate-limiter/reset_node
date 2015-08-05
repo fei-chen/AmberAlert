@@ -1,0 +1,2 @@
+#!/bin/bash
+forever -l /mnt/node/logs/reset.log -o /mnt/node/logs/reset.stdout.log -e /mnt/node/logs/reset.stderr.log -a start /mnt/node/reset.js

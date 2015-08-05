@@ -1,0 +1,88 @@
+!!!5
+html(ng-app="app")
+  head
+    title #{title}
+    link(rel='stylesheet', href='/css/bootstrap.css')
+    link(rel='stylesheet', href='/css/xeditable.css')
+    script(type='text/javascript', src='http://code.jquery.com/jquery-2.0.0.js')
+    script(type='text/javascript', src='/js/bootstrap.js')
+    script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js')
+    script(type='text/javascript', src='/js/xeditable.js')
+    script(type='text/javascript', src='/socket.io/socket.io.js')
+    script(type='text/javascript').
+      var socket = io.connect('http://localhost:3000/');
+
+      socket.on('connect', function(data){
+        setStatus('connected');
+        socket.emit('subscribe', {channel:'realtime'});
+      });
+
+      socket.on('reconnecting', function(data){
+        setStatus('reconnecting');
+      });
+
+      socket.on('message', function (data) {
+        console.log('received a message: ', data);
+        addMessage(data);
+      });
+
+      function addMessage(data) {
+        $('#online').html(data);
+      }
+
+      function setStatus(msg) {
+        console.log('Connection Status : ' + msg);
+      }
+      
+      var app = angular.module("app", ["xeditable"]);
+      app.run(function(editableOptions) {
+        editableOptions.theme = 'bs3';
+      });
+
+      app.controller('Onaftersave', function($scope, $http) {
+        $scope.capacity = {
+          value: 0
+        };
+        $scope.save = function(data) {
+          console.log('alter save:' + $scope.capacity.value);
+
+          return;  // $http.post('/updateUser', $scope.user)
+        };
+
+      });
+  body
+    .container
+      img(src="/img/logo_sm.png")
+      h2 QPS Maximum Limits
+      .main-content
+        block content
+      .sidebar
+        block sidebar
+    .container
+      font(size=+4)
+        table.table.table-striped.table-bordered.table-hover
+          tr
+            th
+            - each op in ops
+              th
+                = op
+          - each app in apps
+            tr
+              td
+                = app
+              - each op in ops
+                td
+                  div(id=op, class=app, ng-controller='Onaftersave')
+                    a(href='#', editable-text='capacity.value', e-app=app, e-op=op, onaftersave='save();') {{ capacity.value }}
+        #online 1
+        
+    .container
+      table(padding=5)
+        tr
+          td
+            button(type="button", class="btn btn-success btn-lg", style="margin: 5px") Speed Up
+          td
+            button(type="button", class="btn btn-danger btn-lg", style="margin: 5px") Slow Down
+      
+    footer
+      p 

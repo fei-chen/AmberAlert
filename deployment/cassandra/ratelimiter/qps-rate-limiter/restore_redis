@@ -1,0 +1,141 @@
+#!/bin/bash
+export PATH=$PATH:/home/ubuntu/redis-2.6.17/src
+
+redis-cli set refresh_interval 10
+
+redis-cli set PPQ-CREATE 1
+redis-cli set PPQ-DROP 1
+redis-cli set PPQ-ALTER 1
+redis-cli set PPQ-CONNECT 1
+redis-cli set PPQ-SCAN 1
+redis-cli set PPQ-READ 1
+redis-cli set PPQ-WRITE 1
+redis-cli set PPQ-PREPARE 1
+
+redis-cli set Capacity-Cassandra-DATA_ETL-CREATE 1
+redis-cli set Capacity-Cassandra-DATA_ETL-DROP 1
+redis-cli set Capacity-Cassandra-DATA_ETL-ALTER 1
+redis-cli set Capacity-Cassandra-DATA_ETL-CONNECT 1000
+redis-cli set Capacity-Cassandra-DATA_ETL-SCAN 150
+redis-cli set Capacity-Cassandra-DATA_ETL-READ 1000
+redis-cli set Capacity-Cassandra-DATA_ETL-WRITE 1500
+redis-cli set Capacity-Cassandra-DATA_ETL-PREPARE 2000
+
+redis-cli set Capacity-Cassandra-P13N-CREATE 1
+redis-cli set Capacity-Cassandra-P13N-DROP 1
+redis-cli set Capacity-Cassandra-P13N-ALTER 1
+redis-cli set Capacity-Cassandra-P13N-CONNECT 1000
+redis-cli set Capacity-Cassandra-P13N-SCAN 30
+redis-cli set Capacity-Cassandra-P13N-READ 1000
+redis-cli set Capacity-Cassandra-P13N-WRITE 2000
+redis-cli set Capacity-Cassandra-P13N-PREPARE 2000
+
+redis-cli set Capacity-Cassandra-RSRP-CREATE 1
+redis-cli set Capacity-Cassandra-RSRP-DROP 1
+redis-cli set Capacity-Cassandra-RSRP-ALTER 1
+redis-cli set Capacity-Cassandra-RSRP-CONNECT 1000
+redis-cli set Capacity-Cassandra-RSRP-SCAN 50
+redis-cli set Capacity-Cassandra-RSRP-READ 1000
+redis-cli set Capacity-Cassandra-RSRP-WRITE 500
+redis-cli set Capacity-Cassandra-RSRP-PREPARE 2000
+
+redis-cli set Capacity-Cassandra-THEMATIC-CREATE 1
+redis-cli set Capacity-Cassandra-THEMATIC-DROP 1
+redis-cli set Capacity-Cassandra-THEMATIC-ALTER 1
+redis-cli set Capacity-Cassandra-THEMATIC-CONNECT 1000
+redis-cli set Capacity-Cassandra-THEMATIC-SCAN 20
+redis-cli set Capacity-Cassandra-THEMATIC-READ 4000
+redis-cli set Capacity-Cassandra-THEMATIC-WRITE 1000
+redis-cli set Capacity-Cassandra-THEMATIC-PREPARE 2000
+
+redis-cli set Capacity-Cassandra-CONNECT-CREATE 1
+redis-cli set Capacity-Cassandra-CONNECT-DROP 1
+redis-cli set Capacity-Cassandra-CONNECT-ALTER 1
+redis-cli set Capacity-Cassandra-CONNECT-CONNECT 1000
+redis-cli set Capacity-Cassandra-CONNECT-SCAN 50
+redis-cli set Capacity-Cassandra-CONNECT-READ 1000
+redis-cli set Capacity-Cassandra-CONNECT-WRITE 2000
+redis-cli set Capacity-Cassandra-CONNECT-PREPARE 2000
+
+redis-cli set Capacity-Cassandra-SEARCH_QUALITY-CREATE 1
+redis-cli set Capacity-Cassandra-SEARCH_QUALITY-DROP 1
+redis-cli set Capacity-Cassandra-SEARCH_QUALITY-ALTER 1
+redis-cli set Capacity-Cassandra-SEARCH_QUALITY-CONNECT 1000
+redis-cli set Capacity-Cassandra-SEARCH_QUALITY-SCAN 50
+redis-cli set Capacity-Cassandra-SEARCH_QUALITY-READ 1000
+redis-cli set Capacity-Cassandra-SEARCH_QUALITY-WRITE 2000
+redis-cli set Capacity-Cassandra-SEARCH_QUALITY-PREPARE 2000
+
+redis-cli set Capacity-Cassandra-MOBILE_INDEXER-CREATE 1
+redis-cli set Capacity-Cassandra-MOBILE_INDEXER-DROP 1
+redis-cli set Capacity-Cassandra-MOBILE_INDEXER-ALTER 1
+redis-cli set Capacity-Cassandra-MOBILE_INDEXER-CONNECT 10
+redis-cli set Capacity-Cassandra-MOBILE_INDEXER-SCAN 20
+redis-cli set Capacity-Cassandra-MOBILE_INDEXER-READ 20
+redis-cli set Capacity-Cassandra-MOBILE_INDEXER-WRITE 20
+redis-cli set Capacity-Cassandra-MOBILE_INDEXER-PREPARE 20
+
+redis-cli set AllocatedCapacity-Cassandra-DATA_ETL-CREATE 1
+redis-cli set AllocatedCapacity-Cassandra-DATA_ETL-DROP 1
+redis-cli set AllocatedCapacity-Cassandra-DATA_ETL-ALTER 1
+redis-cli set AllocatedCapacity-Cassandra-DATA_ETL-CONNECT 1000
+redis-cli set AllocatedCapacity-Cassandra-DATA_ETL-SCAN 150
+redis-cli set AllocatedCapacity-Cassandra-DATA_ETL-READ 1000
+redis-cli set AllocatedCapacity-Cassandra-DATA_ETL-WRITE 1500
+redis-cli set AllocatedCapacity-Cassandra-DATA_ETL-PREPARE 2000
+
+redis-cli set AllocatedCapacity-Cassandra-P13N-CREATE 1
+redis-cli set AllocatedCapacity-Cassandra-P13N-DROP 1
+redis-cli set AllocatedCapacity-Cassandra-P13N-ALTER 1
+redis-cli set AllocatedCapacity-Cassandra-P13N-CONNECT 1000
+redis-cli set AllocatedCapacity-Cassandra-P13N-SCAN 30
+redis-cli set AllocatedCapacity-Cassandra-P13N-READ 1000
+redis-cli set AllocatedCapacity-Cassandra-P13N-WRITE 2000
+redis-cli set AllocatedCapacity-Cassandra-P13N-PREPARE 2000
+
+redis-cli set AllocatedCapacity-Cassandra-RSRP-CREATE 1
+redis-cli set AllocatedCapacity-Cassandra-RSRP-DROP 1
+redis-cli set AllocatedCapacity-Cassandra-RSRP-ALTER 1
+redis-cli set AllocatedCapacity-Cassandra-RSRP-CONNECT 1000
+redis-cli set AllocatedCapacity-Cassandra-RSRP-SCAN 50
+redis-cli set AllocatedCapacity-Cassandra-RSRP-READ 1000
+redis-cli set AllocatedCapacity-Cassandra-RSRP-WRITE 500
+redis-cli set AllocatedCapacity-Cassandra-RSRP-PREPARE 2000
+
+redis-cli set AllocatedCapacity-Cassandra-THEMATIC-CREATE 1
+redis-cli set AllocatedCapacity-Cassandra-THEMATIC-DROP 1
+redis-cli set AllocatedCapacity-Cassandra-THEMATIC-ALTER 1
+redis-cli set AllocatedCapacity-Cassandra-THEMATIC-CONNECT 1000
+redis-cli set AllocatedCapacity-Cassandra-THEMATIC-SCAN 20
+redis-cli set AllocatedCapacity-Cassandra-THEMATIC-READ 4000
+redis-cli set AllocatedCapacity-Cassandra-THEMATIC-WRITE 1000
+redis-cli set AllocatedCapacity-Cassandra-THEMATIC-PREPARE 2000
+
+redis-cli set AllocatedCapacity-Cassandra-CONNECT-CREATE 1
+redis-cli set AllocatedCapacity-Cassandra-CONNECT-DROP 1
+redis-cli set AllocatedCapacity-Cassandra-CONNECT-ALTER 1
+redis-cli set AllocatedCapacity-Cassandra-CONNECT-CONNECT 1000
+redis-cli set AllocatedCapacity-Cassandra-CONNECT-SCAN 50
+redis-cli set AllocatedCapacity-Cassandra-CONNECT-READ 1000
+redis-cli set AllocatedCapacity-Cassandra-CONNECT-WRITE 2000
+redis-cli set AllocatedCapacity-Cassandra-CONNECT-PREPARE 2000
+
+redis-cli set AllocatedCapacity-Cassandra-SEARCH_QUALITY-CREATE 1
+redis-cli set AllocatedCapacity-Cassandra-SEARCH_QUALITY-DROP 1
+redis-cli set AllocatedCapacity-Cassandra-SEARCH_QUALITY-ALTER 1
+redis-cli set AllocatedCapacity-Cassandra-SEARCH_QUALITY-CONNECT 1000
+redis-cli set AllocatedCapacity-Cassandra-SEARCH_QUALITY-SCAN 50
+redis-cli set AllocatedCapacity-Cassandra-SEARCH_QUALITY-READ 1000
+redis-cli set AllocatedCapacity-Cassandra-SEARCH_QUALITY-WRITE 2000
+redis-cli set AllocatedCapacity-Cassandra-SEARCH_QUALITY-PREPARE 2000
+
+redis-cli set AllocatedCapacity-Cassandra-MOBILE_INDEXER-CREATE 1
+redis-cli set AllocatedCapacity-Cassandra-MOBILE_INDEXER-DROP 1
+redis-cli set AllocatedCapacity-Cassandra-MOBILE_INDEXER-ALTER 1
+redis-cli set AllocatedCapacity-Cassandra-MOBILE_INDEXER-CONNECT 10
+redis-cli set AllocatedCapacity-Cassandra-MOBILE_INDEXER-SCAN 20
+redis-cli set AllocatedCapacity-Cassandra-MOBILE_INDEXER-READ 20
+redis-cli set AllocatedCapacity-Cassandra-MOBILE_INDEXER-WRITE 20
+redis-cli set AllocatedCapacity-Cassandra-MOBILE_INDEXER-PREPARE 20
+
+

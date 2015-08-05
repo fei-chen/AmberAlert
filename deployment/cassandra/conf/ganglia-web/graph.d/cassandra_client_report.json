@@ -1,0 +1,11 @@
+{
+   "report_name" : "cassandra_client_report",
+   "title" : "Clients",
+   "vertical_label" : "count",
+   "series" : [
+      { "metric": "Cassandra_ConnectedThriftClients_Value", "color": "3333bb", "label": "Thrift",
+        "line_width": "2", "type": "line" },
+      { "metric": "Cassandra_ConnectedNativeClients_Value", "color": "FF0000", "label": "Native",
+        "line_width": "2", "type": "line" }
+   ]
+}

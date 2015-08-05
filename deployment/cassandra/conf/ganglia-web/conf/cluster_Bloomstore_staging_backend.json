@@ -1,0 +1,10 @@
+{
+	"included_reports": [
+                "simple_diskstats_report",
+                "cassandra_heap_used_report","cassandra_compaction_report","cassandra_qps_report",
+                "cassandra_latency_min_report","cassandra_latency_max_report","cassandra_request_pendingtasks_report",
+                "cassandra_request_completedtasks_report","cassandra_internal_pendingtasks_report","cassandra_internal_completedtasks_report",
+                "cassandra_client_report"],
+        "excluded_reports": [
+		"mem_report","load_report"]
+}

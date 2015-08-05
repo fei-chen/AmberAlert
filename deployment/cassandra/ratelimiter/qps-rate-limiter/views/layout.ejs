@@ -1,0 +1,94 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/editablegrid.css" type="text/css" media="screen">
+  <script type="text/javascript" src="/js/jquery-2.0.0.js"></script>   
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/editablegrid-2.0.1.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <style>
+    input[type="text"] { padding: 10px 1px; line-height: 12px; }
+  </style>
+  <script>
+    var fullhost = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+    var socket = io.connect(fullhost);
+    socket.on('connect', function(data){
+      socket.emit('subscribe', {channel:'realtime'});
+    });
+
+    function updateCapacity(appName, operation, newCapacity) {
+      console.log('updating... ', appName, operation, newCapacity);
+      var msg = { 'app' : appName, 'op' : operation, 'value' : parseInt(newCapacity) };
+      socket.emit('set_capacity', msg);
+    }
+
+    window.onload = function() {
+
+      var operations = [<% ops.forEach(function(op) { %>
+        "<%= op %>",
+        <% }) %>
+      ];
+      var metadata = [];
+      metadata.push({ name: "app", label: "App", datatype: "string", editable: false});
+      <% ops.forEach(function(op) { %>
+        metadata.push({ name: "<%= op %>", label: "<%= op %>", datatype: "string", editable: true});
+      <% }) %>
+
+      var data = [];
+      <% for (var i = 0; i < apps.length; i++ ) { %>
+        data.push({id: <%= i %>, values: {
+          <% ops.forEach(function(op) { %>
+            "<%= op %>" : <%= capacity[apps[i]][op] %>,
+            <% }) %>
+          "app" : "<%= apps[i] %>"
+        }});
+      <% } %>
+
+      editableGrid = new EditableGrid("RateLimiterControl", {
+        enableSort: true,
+        modelChanged: function(rowIndex, columnIndex, oldValue, newValue, row) {
+          var appName = row.cells[0].innerHTML;
+          var operation = operations[columnIndex - 1];
+          updateCapacity(appName, operation, newValue);
+        }
+      });
+      editableGrid.load({"metadata": metadata, "data": data});
+      editableGrid.renderGrid("tablecontent", "table table-striped table-bordered table-hover");
+
+      // asynchronously load images from ganglia, because they are slow.
+      $(".imagesection").each(function(index) {
+        var imgdom = $(this);
+        var imgsrc = imgdom.attr('ajaximg');
+        var img = $("<img />").attr('src', imgsrc).load(function() {
+          if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+            console.log('broken image!'); 
+          } else {
+            imgdom.append(img);
+          }
+        });
+      });
+    }
+  </script>
+
+</head>
+
+<body>
+  <div class="container">
+    <img src="/img/logo_sm.png">
+    <h1>QPS Maximum Limits</h1>
+    <div id="tablecontent"></div>
+    <table>
+      <tr>
+        <td>
+          <div class="imagesection" ajaximg="http://gmetad.us-east-1.bloomreach.com/ganglia/graph.php?r=hour&z=medium&c=Bloomstore+production+backend&m=load_one&s=by+name&mc=2&g=application_write_report"> </div>
+        </td>
+        <td>
+          <div class="imagesection" ajaximg="http://gmetad.us-east-1.bloomreach.com/ganglia/graph.php?r=hour&z=medium&c=Bloomstore+production+backend&m=load_one&s=by+name&mc=2&g=application_scan_report"> </div>
+        </td>
+      </table>
+    </div>
+  </body>
+
+</html>

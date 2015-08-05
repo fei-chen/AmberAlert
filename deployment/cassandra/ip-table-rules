@@ -1,0 +1,22 @@
+#commands to add/remove rule to iptables to prevent connections leaks in cassandra backend nodes
+#commands to use: 
+#for backend nodes: reject further connections to port 9041 from ips whose established connections > 150
+sudo iptables -A INPUT -s 10.138.18.117/32 -p tcp -m tcp --dport 9041 -j ACCEPT # let admin machine go through
+sudo iptables -A INPUT -s 10.84.202.162/32 -p tcp -m tcp --dport 9041 -j ACCEPT # let active monitor node go through
+sudo iptables -A INPUT -p tcp --syn --dport 9041 -m connlimit --connlimit-above 150 -j REJECT --reject-with tcp-reset
+
+#for frontend nodes: reject further connections to port 9042 from ips whose established connections > 150
+sudo iptables -A INPUT -s 10.138.18.117/32 -p tcp -m tcp --dport 9042 -j ACCEPT # let admin machine go through
+sudo iptables -A INPUT -s 10.84.202.162/32 -p tcp -m tcp --dport 9042 -j ACCEPT # let active monitor node go through
+sudo iptables -A INPUT -p tcp --syn --dport 9042 -m connlimit --connlimit-above 150 -j REJECT --reject-with tcp-reset
+            
+#commands to delete the rules
+#for backend nodes:
+sudo iptables -D INPUT -s 10.138.18.117/32 -p tcp -m tcp --dport 9041 -j ACCEPT
+sudo iptables -D INPUT -s 10.84.202.162/32 -p tcp -m tcp --dport 9041 -j ACCEPT
+sudo iptables -D INPUT -p tcp --syn --dport 9041 -m connlimit --connlimit-above 150 -j REJECT --reject-with tcp-reset
+
+#for frontend nodes:
+sudo iptables -D INPUT -s 10.138.18.117/32 -p tcp -m tcp --dport 9042 -j ACCEPT
+sudo iptables -D INPUT -s 10.84.202.162/32 -p tcp -m tcp --dport 9042 -j ACCEPT
+sudo iptables -D INPUT -p tcp --syn --dport 9042 -m connlimit --connlimit-above 150 -j REJECT --reject-with tcp-reset

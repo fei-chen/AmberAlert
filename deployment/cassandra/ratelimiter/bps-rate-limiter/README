@@ -1,0 +1,3 @@
+this rate limiter dist has following features:
+1. total connection number limit per pipeline
+2. dynamic bps throttling support

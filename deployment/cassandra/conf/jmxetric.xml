@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE jmxetric-config [
+   <!ELEMENT jmxetric-config (sample|ganglia|jvm)*>
+   <!ELEMENT sample (mbean)*>
+      <!ATTLIST sample delay CDATA #REQUIRED>
+      <!ATTLIST sample initialdelay CDATA "0">
+   <!ELEMENT mbean (attribute)*>
+      <!ATTLIST mbean name CDATA #REQUIRED>
+      <!ATTLIST mbean pname CDATA #REQUIRED>
+   <!ELEMENT attribute (composite*)>
+      <!ATTLIST attribute name CDATA #REQUIRED>
+      <!ATTLIST attribute type CDATA "" >
+      <!ATTLIST attribute units CDATA "" >
+      <!ATTLIST attribute pname CDATA "" >
+      <!ATTLIST attribute slope CDATA "both" >
+   <!ELEMENT composite EMPTY>
+      <!ATTLIST composite name CDATA #REQUIRED>
+      <!ATTLIST composite type CDATA "" >
+      <!ATTLIST composite units CDATA "" >
+      <!ATTLIST composite pname CDATA "" >
+      <!ATTLIST composite slope CDATA "both" >
+   <!ELEMENT ganglia EMPTY>
+      <!ATTLIST ganglia hostname CDATA #REQUIRED>
+      <!ATTLIST ganglia port CDATA #REQUIRED>
+      <!ATTLIST ganglia mode CDATA #REQUIRED>
+      <!ATTLIST ganglia wireformat31x CDATA #REQUIRED>
+   <!ELEMENT jvm EMPTY>
+      <!ATTLIST jvm process CDATA "">
+]>
+<jmxetric-config>
+	<jvm process="Cassandra"/>
+	<sample delay="30">
+		<mbean name="java.lang:type=Memory" pname="Memory">
+			<attribute name="HeapMemoryUsage">
+				<composite name="used" pname="Heap_used" type="int32" units="bytes" />
+				<composite name="max" pname="Heap_max" type="int32" units="bytes" />
+			</attribute>
+		</mbean>
+		<mbean name="java.lang:type=Threading" pname="Threading" >
+			<attribute name="ThreadCount" type="int16" />
+			<attribute name="DaemonThreadCount" type="int16" />
+		</mbean>
+		<mbean name="java.lang:type=MemoryPool,name=CMS Old Gen" pname="MemoryPool_CMS_Old_Gen" >
+			<attribute name="Usage">
+				<composite name="used" type="int32" units="bytes" />
+			</attribute>
+		</mbean>
+		<mbean name="java.lang:type=MemoryPool,name=CMS Perm Gen" pname="MemoryPool_CMS_Perm_Gen" >
+			<attribute name="Usage">
+				<composite name="used" type="int32" units="bytes" />
+			</attribute>
+		</mbean>
+		<!--
+		<mbean name="java.lang:type=MemoryPool,name=Par Eden Space" pname="MemoryPool_Par_Eden_Space" >
+			<attribute name="Usage">
+				<composite name="used" type="int32" units="bytes" />
+			</attribute>
+		</mbean>
+		<mbean name="java.lang:type=MemoryPool,name=Par Survivor Space" pname="MemoryPool_Par_Survivor_Space" >
+			<attribute name="Usage">
+				<composite name="used" type="int32" units="bytes" />
+			</attribute>
+		</mbean>
+		-->
+		<mbean name="org.apache.cassandra.metrics:type=ClientRequest,scope=Read,name=Latency" pname="ClientRequest_Read" >
+			<attribute name="OneMinuteRate"  type="double" units="microseconds"/>
+			<attribute name="Min"  type="double" units="microseconds"/>
+			<attribute name="50thPercentile"  type="double" units="microseconds"/>
+			<attribute name="95thPercentile"  type="double" units="microseconds"/>
+			<attribute name="Max"  type="double" units="microseconds"/>
+		</mbean>
+		<mbean name="org.apache.cassandra.metrics:type=ClientRequest,scope=Write,name=Latency" pname="ClientRequest_Write" >
+			<attribute name="OneMinuteRate"  type="double" units="microseconds"/>
+			<attribute name="Min"  type="double" units="microseconds"/>
+			<attribute name="50thPercentile"  type="double" units="microseconds"/>
+			<attribute name="95thPercentile"  type="double" units="microseconds"/>
+			<attribute name="Max"  type="double" units="microseconds"/>
+		</mbean>
+		<mbean name="org.apache.cassandra.metrics:type=ClientRequest,scope=RangeSlice,name=Latency" pname="ClientRequest_RangeSlice" >
+			<attribute name="OneMinuteRate"  type="double" units="microseconds"/>
+			<attribute name="Min"  type="double" units="microseconds"/>
+			<attribute name="50thPercentile"  type="double" units="microseconds"/>
+			<attribute name="95thPercentile"  type="double" units="microseconds"/>
+			<attribute name="Max"  type="double" units="microseconds"/>
+		</mbean>
+		<mbean name="org.apache.cassandra.db:type=CompactionManager" pname="CompactionManager" >
+			<attribute name="PendingTasks"  type="int16" units="count"/>
+		</mbean>
+		<!--
+		<mbean name="org.apache.cassandra.db:type=ColumnFamilies,keyspace=pagedb,columnfamily=v4042_web_page" pname="v4042_web_page" >
+			<attribute name="SSTableCountPerLevel" />
+				<composite name="0" pname="Level0" type="int16"  />
+				<composite name="1" pname="Level1" type="int16"  />
+				<composite name="2" pname="Level2" type="int16"  />
+				<composite name="3" pname="Level3" type="int16"  />
+			</attribute>
+		</mbean>
+		-->
+		<!--
+		<mbean name="org.apache.cassandra.metrics:type=ColumnFamily,keyspace=pagedb,scope=v4042_web_page,name=ReadLatency" pname="v4042_web_page_ReadLatency" >
+			<attribute name="MeanRate"  type="double" />
+			<attribute name="95thPercentile"  type="double" />
+		</mbean>
+		<mbean name="org.apache.cassandra.metrics:type=ColumnFamily,keyspace=pagedb,scope=v4042_web_page,name=WriteLatency" pname="v4042_web_page_WriteLatency" >
+			<attribute name="MeanRate"  type="double" />
+			<attribute name="95thPercentile"  type="double" />
+		</mbean>
+		<mbean name="org.apache.cassandra.metrics:type=ColumnFamily,keyspace=pagedb,scope=v4042_web_page,name=SSTablesPerReadHistogram" pname="v4042_web_page_SSTablesPerReadHistogram" >
+			<attribute name="Mean"  type="double" />
+			<attribute name="95thPercentile"  type="double" />
+		</mbean>
+		-->
+		<mbean name="org.apache.cassandra.request:type=MutationStage" pname="MutationStage" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.request:type=ReadRepairStage" pname="ReadRepairStage" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.request:type=ReadStage" pname="ReadStage" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.request:type=ReplicateOnWriteStage" pname="ReplicateOnWriteStage" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.request:type=RequestResponseStage" pname="RequestResponseStage" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.internal:type=AntiEntropyStage" pname="AntiEntropyStage" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.internal:type=commitlog_archiver" pname="commitlog_archiver" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.internal:type=FlushWriter" pname="FlushWriter" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.internal:type=GossipStage" pname="GossipStage" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.internal:type=HintedHandoff" pname="HintedHandoff" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.internal:type=InternalResponseStage" pname="InternalResponseStage" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.internal:type=MemoryMeter" pname="MemoryMeter" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.internal:type=MemtablePostFlusher" pname="MemtablePostFlusher" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.internal:type=MigrationStage" pname="MigrationStage" >
+			<attribute name="CompletedTasks"  type="int32" />
+			<attribute name="PendingTasks"  type="int32" />
+		</mbean>
+
+		<mbean name="org.apache.cassandra.metrics:type=Client,name=connectedThriftClients" pname="ConnectedThriftClients" >
+			<attribute name="Value"  type="int32" />
+		</mbean>
+		<mbean name="org.apache.cassandra.metrics:type=Client,name=connectedNativeClients" pname="ConnectedNativeClients" >
+			<attribute name="Value"  type="int32" />
+		</mbean>
+	</sample>
+	<ganglia hostname="gmond1.us-east-1.bloomreach.com" port="<SEND_PORT>" mode="unicast" wireformat31x="true" />
+</jmxetric-config>
+

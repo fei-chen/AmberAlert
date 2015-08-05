@@ -1,0 +1,2 @@
+#!/bin/bash
+forever -l /mnt/node/logs/forever.$1.log -o /mnt/node/logs/stdout.$1.log -e /mnt/node/logs/stderr.$1.log -a start /mnt/node/app.js 808$1

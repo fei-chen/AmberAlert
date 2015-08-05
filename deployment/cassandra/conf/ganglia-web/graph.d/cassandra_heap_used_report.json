@@ -1,0 +1,11 @@
+{
+   "report_name" : "cassandra_heap_used_report",
+   "title" : "Cassandra Heap Used",
+   "vertical_label" : "Bytes",
+   "series" : [
+      { "metric": "Cassandra_Memory_Heap_used", "color": "3333bb", "label": "Used",
+        "type": "stack" },
+      { "metric": "Cassandra_Memory_Heap_max", "color": "FF0000", "label": "Max",
+        "line_width": "2", "type": "line" }
+   ]
+}
