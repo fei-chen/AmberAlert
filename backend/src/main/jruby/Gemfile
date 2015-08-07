@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+# general ruby tools
+gem 'pry'
+
+# actor-based concurrency
+gem 'celluloid'
+
+# for fetching/crawling
+gem 'mechanize'

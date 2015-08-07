@@ -1,0 +1,111 @@
+// Copyright at HighForm Inc. 2013. All rights reserved.
+//
+// Protocol messages for univeristy data.
+// author: stormy@highform.com
+
+import "datastore.proto"; // for Field
+
+option java_package = "com.highform.university.proto"; // for java
+
+message University {
+  required string key = 1;
+  optional string name_full = 2;
+  optional string name_short = 3;
+  optional string name_abbrv = 4;
+  optional string number = 5;
+}
+
+message Term {
+  required string key = 1; 
+
+  optional string name = 2;
+  optional string abbrv = 3;
+}
+
+message Department {
+  required string key = 1; 
+
+  optional string name = 2;
+  optional string abbrv = 3;
+}
+
+message Course {
+  required string key = 1; 
+
+  optional Field name = 2;
+  optional Field abbrv = 3;
+  optional string description_full = 4;
+  optional string description_short = 5;
+}
+
+message Section {
+  // unique composite key for a section
+  // uni_term_dept_course_sectionid
+  required string key = 1; 
+
+  optional Field id = 2;
+  optional Field number = 3;
+
+  enum Status {
+    UNDERGRAD = 0;
+    GRAD = 1;
+  }
+  
+  optional string session = 10;
+  
+  repeated Meeting meeting = 16;
+  repeated Material material = 17;
+  optional Availability availability = 18;
+
+  optional string material_url = 30;
+
+  // de-normalized section data necessary for composite key creation
+  required Course course = 41;
+  required Department department = 42;
+  required Term term = 43;
+  required University university = 45;
+}
+
+message Meeting {
+  repeated string days = 1;
+  optional string time_start = 2;
+  optional string time_end = 3;
+  optional Location location = 4;
+  optional Instructor instructor = 5;
+  optional string date_start = 6;
+  optional string date_end = 7;
+}
+
+message Location {
+  optional string building = 1;
+  optional string room = 2;
+  optional string campus = 3;
+}
+
+message Instructor {
+  optional Field name_full = 1;
+  optional Field name_first = 2;
+  optional Field name_last = 3;
+  optional Field email = 4;
+}
+
+message Availability {
+  optional string capacity = 1;
+  optional string enrolled = 2;
+}
+
+message Material {
+  optional string name = 2;
+
+  // Book specific details
+  optional string isbn = 10;
+  optional string title = 11;
+  optional string edition = 12;
+  optional string author = 13;
+
+  enum Status {
+    REQUIRED = 0;
+    RECOMMENDED = 1;
+    OPTIONAL = 2;
+  }
+}

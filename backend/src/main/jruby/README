@@ -1,0 +1,40 @@
+HOWTO WORK WITH JRUBY
+=====================
+
+
+Setup Ruby
+----------
+
+1. Install RVM 
+    \curl -L https://get.rvm.io | bash;
+    rvm requirements;
+2. Install JRuby
+    rvm install jruby-1.7.4
+    rvm use jruby-1.7.4
+
+Install Dependencies
+-----------------------
+
+1. Install Bundler
+    gem install bundler
+2. Bundle Requred Gems
+    bundle
+
+REPL + Working with Java
+----------------------------
+
+1. Package code into single Jar
+    mvn clean compile assembly:single
+
+2. Start a REPL session with Pry
+    pry
+
+3. Example REPL session interacting with Java code
+    require 'java'
+    require '../../../target/findmytext-1.0-SNAPSHOT-jar-with-dependencies.jar'
+    java_import Java::com::highform::university::proto::CourseInfo::Section
+    java_import Java::com::highform::datastore::proto::Datastore::DataType
+    java_import Java::com::highform::datastore::input::Creator
+    number = Creator.createField("section_number", DataType::INT, "01")
+    section = Section.newBuilder().setKey('SJSU_TESTKEY').setNumber(number).build()
+    

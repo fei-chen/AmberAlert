@@ -1,0 +1,40 @@
+// Copyright at HighForm Inc. 2013. All rights reserved.
+//
+// Protocol messages for cassandra database.
+// author: fei@highform.com
+
+import "datastore.proto"; // for schema
+
+option java_package = "com.highform.index.elasticsearch.proto"; // for java
+
+message ESConfig {
+  optional ClientType client_type = 1 [default = NodeClient];
+  required string cluster = 2;
+  repeated Host host = 3;
+  optional Transport transport = 4;
+  optional EC2Tag ec2_tag = 5;
+
+  required Schema schema = 100;
+}
+
+message Host {
+  required string ip = 1;
+  optional int32 port = 2 [default = 9300];
+}
+
+message Transport {
+  optional bool is_sniff = 1 [default = false];
+  optional bool is_ignore_cluster_name = 2 [default = false];
+  optional int32 ping_timeout = 3 [default = 5];
+  optional int32 nodes_sampler_interval = 4 [default = 5];
+}
+
+enum ClientType {
+  NodeClient = 1;
+  TransportClient = 2;
+}
+
+message EC2Tag {
+  required string key = 1;
+  required string value = 2;
+}

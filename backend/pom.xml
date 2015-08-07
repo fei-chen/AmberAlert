@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.highform.db</groupId>
+  <artifactId>findmytext</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>findmytext</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <generateSourceDirectory>${project.build.directory}/generated-sources</generateSourceDirectory>
+    <protobufSourceDirectory>${project.build.sourceDirectory}/../protobuf</protobufSourceDirectory>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.netflix.astyanax</groupId>
+      <artifactId>astyanax</artifactId>
+      <version>1.56.37</version>
+    </dependency>
+    <dependency>
+      <groupId>org.elasticsearch</groupId>
+      <artifactId>elasticsearch</artifactId>
+      <version>0.90.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-core</artifactId>
+      <version>4.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.twitter.elephantbird</groupId>
+      <artifactId>elephant-bird-core</artifactId>
+      <version>4.0</version>
+    </dependency>
+    <dependency>
+    	<groupId>commons-codec</groupId>
+    	<artifactId>commons-codec</artifactId>
+    	<version>1.8</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.0</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>compile-protoc</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="${generateSourceDirectory}/java"/>
+                <mkdir dir="${generateSourceDirectory}/python"/>
+                <exec executable="protoc">
+                  <arg value="--proto_path=${protobufSourceDirectory}"/>
+                  <arg value="--java_out=${generateSourceDirectory}/java"/>
+                  <arg value="--python_out=${generateSourceDirectory}/python"/>
+                  <arg value="${protobufSourceDirectory}/datastore.proto"/>
+                  <arg value="${protobufSourceDirectory}/cassandra.proto"/>
+                  <arg value="${protobufSourceDirectory}/elasticsearch.proto"/>
+                  <arg value="${protobufSourceDirectory}/course_info.proto"/>
+                  <arg value="${protobufSourceDirectory}/book_info.proto"/>
+                </exec>
+              </tasks>
+              <sourceRoot>${generateSourceDirectory}</sourceRoot>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+      	<groupId>org.codehaus.mojo</groupId>
+      	<artifactId>build-helper-maven-plugin</artifactId>
+      	<version>1.8</version>
+      	<executions>
+      	  <execution>
+            <phase>generate-sources</phase>
+            <goals><goal>add-source</goal></goals>
+            <configuration>
+              <sources>
+                <source>${generateSourceDirectory}/java</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>fully.qualified.MainClass</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,25 @@
+*~
+target/
+
+.classpath
+.project
+.settings
+*.pydevproject
+.idea
+*.iml
+
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+
+#java specific
+*.class
+
+#python specific
+*.pyc
+
+#local-versions of files
+tracker.conf

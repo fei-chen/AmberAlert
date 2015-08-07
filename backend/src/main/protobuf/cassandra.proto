@@ -1,0 +1,52 @@
+// Copyright at HighForm Inc. 2013. All rights reserved.
+//
+// Protocol messages for cassandra database.
+// author: fei@highform.com
+
+import "datastore.proto"; // for schema
+
+option java_package = "com.highform.db.cassandra.proto"; // for java
+
+message CSConfig {
+  required string cluster = 1;
+  required string keyspace = 2;
+  optional string user = 3;
+  optional string password = 4;
+  required string connection_pool = 5;
+  required int32 port = 6;
+  required int32 max_conns_per_host = 7;
+  optional int32 conns_timeout = 8 [default = 10000];
+  required string seeds = 9;
+  optional string cql_version = 10 [default = "3.0.0"];
+  optional string target_cassandra_version = 11 [default = "1.2"];
+  
+  optional Retry retry = 21;
+
+  required Schema keyspace_schema = 100;
+}
+
+message Retry {
+  required RetryType retry_type = 1 [default = BOUNDEDEXPONENTIALBACKOFF];
+  optional int32 max_retry_times = 2 [default = 3];
+  optional int32 base_sleep_time_ms = 3 [default = 250];
+  optional int32 max_sleep_time_ms = 4 [default = 5000];
+}
+
+enum RetryType {
+  BOUNDEDEXPONENTIALBACKOFF = 1;
+  CONSTANTBACKOFF = 2;
+  EXPONENTIALBACKOFF = 3;
+  RETRYNTIMES = 4;
+  RUNONCE = 5;
+}
+
+enum ConsistencyLevel {
+  ONE = 1;
+  TWO = 2;
+  THREE = 3;
+  ANY = 4;
+  ALL = 5;
+  QUORUM = 6;
+  LOCAL_QUORUM = 7;
+  EACH_QUORUM = 8;
+}

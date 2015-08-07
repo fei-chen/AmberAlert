@@ -1,0 +1,106 @@
+// Copyright at HighForm Inc. 2013. All rights reserved.
+//
+// Protocol messages for book data.
+// author: fei@highform.com
+
+import "datastore.proto"; // for Field
+
+option java_package = "com.highform.book.proto"; // for java
+
+message Book {
+  // basic book info
+  required ISBN isbn = 1;
+  required string title = 2;
+  repeated string author = 3;
+  required PrintType print_type = 4 [default = HARDCOVER];
+  required int32 edition = 5 [default = 1];
+  
+  // additional book info
+  optional string description = 11;
+  optional string abstract = 12;
+  optional string page_count = 13;
+  optional string category = 14;
+  optional int32 volume = 15;
+  optional string preview_link = 16;
+  repeated PrintType other_type = 17; 
+  repeated int32 other_edition = 18;
+    
+  // publisher info
+  optional string publisher = 21;
+  optional int64 publish_date = 22;
+  
+  optional Language language = 31 [default = EN];
+}
+
+message ISBN {
+  optional string isbn10 = 1;
+  optional string isbn13 = 2;
+}
+
+message Rating {
+  required float rate = 1;
+  required int32 num_reviews = 2;
+}
+
+message Market {
+  required string market = 1;
+  required bool availability = 2;
+  optional Rating rating = 3;
+  
+  optional Selling selling = 11;
+  repeated Rental rental = 12;
+}
+
+message Selling {
+  required Cost cost = 1;
+  required string book_link = 2;
+  required int64 latest_update_time = 3;
+    
+  optional string img_link = 11;
+  optional string thumb_link = 12;
+  optional Condition condition = 13;
+  
+  optional Cost sale_cost = 21;
+}
+
+message Rental {
+  required Cost cost = 1;
+  required string book_link = 2;
+  required int64 latest_update_time = 3;
+  // number of days for renting the book
+  required int32 period = 4;
+  
+  optional string img_link = 11;
+  optional string thumb_link = 12;
+  optional Condition condition = 13;
+  
+  optional Cost sale_cost = 21;
+}
+
+message Cost {
+  required float price = 1;
+  optional float shipping_fee = 2;
+}
+
+enum Language {
+  EN = 1;
+  FR = 2;
+  SP = 3;
+  CN = 4;
+  JP = 5;
+}
+
+enum Condition {
+  BRANDNEW = 1;
+  LIKENEW = 2;
+  VERYGOOD = 3;
+  GOOD = 4;
+  ACCEPTABLE =5;
+}
+
+enum PrintType {
+  HARDCOVER = 1;
+  SOFTCOVER = 2;
+  EBOOK = 3;
+  CD = 4;
+}
